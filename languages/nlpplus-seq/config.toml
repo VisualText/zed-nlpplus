@@ -1,0 +1,6 @@
+name = "NLP++ Analyzer Sequence"
+grammar = "nlpplus_seq"
+path_suffixes = ["analyzer.seq"]
+line_comments = ["# "]
+tab_size = 4
+hard_tabs = true

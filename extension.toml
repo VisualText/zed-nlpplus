@@ -1,0 +1,35 @@
+id = "nlpplus"
+name = "NLP++"
+description = "NLP++ support: pass files, dictionaries, knowledge bases, analyzer sequences and parse trees, with the NLP++ language server"
+version = "0.1.0"
+schema_version = 1
+authors = ["David de Hilster <dehilster@gmail.com>"]
+repository = "https://github.com/VisualText/zed-nlpplus"
+
+[language_servers.nlpplus-language-server]
+name = "NLP++ Language Server"
+languages = ["NLP++"]
+
+[grammars.nlpplus]
+repository = "https://github.com/VisualText/tree-sitter-nlpplus"
+rev = "36cede9602f948c4d061285e8a0b1f91120e3aa4"
+
+[grammars.nlpplus_dict]
+repository = "https://github.com/VisualText/tree-sitter-nlpplus"
+rev = "36cede9602f948c4d061285e8a0b1f91120e3aa4"
+path = "dict"
+
+[grammars.nlpplus_kbb]
+repository = "https://github.com/VisualText/tree-sitter-nlpplus"
+rev = "36cede9602f948c4d061285e8a0b1f91120e3aa4"
+path = "kbb"
+
+[grammars.nlpplus_seq]
+repository = "https://github.com/VisualText/tree-sitter-nlpplus"
+rev = "36cede9602f948c4d061285e8a0b1f91120e3aa4"
+path = "seq"
+
+[grammars.nlpplus_tree]
+repository = "https://github.com/VisualText/tree-sitter-nlpplus"
+rev = "36cede9602f948c4d061285e8a0b1f91120e3aa4"
+path = "tree"

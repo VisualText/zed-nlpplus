@@ -1,0 +1,12 @@
+name = "NLP++"
+grammar = "nlpplus"
+path_suffixes = ["nlp", "pat"]
+line_comments = ["# "]
+tab_size = 4
+hard_tabs = true
+brackets = [
+  { start = "(", end = ")", close = true, newline = false },
+  { start = "[", end = "]", close = true, newline = false },
+  { start = "{", end = "}", close = true, newline = true },
+  { start = "\"", end = "\"", close = true, newline = false, not_in = ["string", "comment"] },
+]

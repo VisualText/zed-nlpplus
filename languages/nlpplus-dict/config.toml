@@ -1,0 +1,6 @@
+name = "NLP++ Dictionary"
+grammar = "nlpplus_dict"
+path_suffixes = ["dict"]
+line_comments = ["# "]
+tab_size = 4
+hard_tabs = false

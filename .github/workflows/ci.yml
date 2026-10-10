@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Rust
+        run: |
+          rustup toolchain install stable --profile minimal --target wasm32-wasip2
+          rustup default stable
+
+      - name: Check formatting
+        run: |
+          rustup component add rustfmt
+          cargo fmt --check
+
+      # Zed compiles extensions to wasm32-wasip2.
+      - name: Build
+        run: cargo build --release --target wasm32-wasip2
+
+  queries:
+    name: Validate queries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.27.0
+
+      # Build the grammars at the revision extension.toml pins.
+      - name: Build grammars
+        run: |
+          rev=$(sed -n 's/^rev = "\(.*\)"/\1/p' extension.toml | sort -u)
+          test "$(printf '%s\n' "$rev" | wc -l)" -eq 1
+          git clone -q https://github.com/VisualText/tree-sitter-nlpplus grammar
+          git -C grammar checkout -q "$rev"
+          mkdir -p parsers
+          tree-sitter build -o parsers/nlpplus.so grammar
+          for g in dict kbb seq tree; do
+            tree-sitter build -o "parsers/nlpplus_$g.so" "grammar/$g"
+          done
+
+      - name: Set up ts_query_ls
+        run: curl -fL https://github.com/ribru17/ts_query_ls/releases/download/v3.16.0/ts_query_ls-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+
+      - name: Check queries
+        run: |
+          ./ts_query_ls check -c '{
+            "parser_install_directories": ["parsers"],
+            "language_retrieval_patterns": ["languages/([^/]+)/[^/]+\\.scm$"],
+            "parser_aliases": {
+              "nlpplus-dict": "nlpplus_dict",
+              "nlpplus-kbb": "nlpplus_kbb",
+              "nlpplus-seq": "nlpplus_seq",
+              "nlpplus-tree": "nlpplus_tree"
+            }
+          }' languages

@@ -1,0 +1,6 @@
+name = "NLP++ Knowledge Base"
+grammar = "nlpplus_kbb"
+path_suffixes = ["kbb"]
+line_comments = ["# "]
+tab_size = 2
+hard_tabs = false

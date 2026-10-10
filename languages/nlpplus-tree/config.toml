@@ -1,0 +1,5 @@
+name = "NLP++ Parse Tree"
+grammar = "nlpplus_tree"
+path_suffixes = ["tree"]
+tab_size = 3
+hard_tabs = false
